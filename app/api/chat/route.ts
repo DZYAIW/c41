@@ -41,17 +41,17 @@ export async function POST(request: Request) {
     const completion = await response.json();
     console.log('API Response:', completion);
     return NextResponse.json(completion.choices[0].message);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Detailed Error:', {
-      name: error.name,
-      message: error.message,
-      stack: error.stack
+      name: error?.name || 'UnknownError',
+      message: error?.message || 'An unknown error occurred',
+      stack: error?.stack
     });
     
     return NextResponse.json(
       { 
         error: '处理请求时发生错误',
-        details: error.message 
+        details: error?.message || 'Unknown error'
       },
       { status: 500 }
     );
